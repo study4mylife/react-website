@@ -1,0 +1,15 @@
+.custom-dots li {
+    bottom: 32px;
+    margin: 0 16px;
+}
+
+.custom-dots li .custom-dot {
+    width: 30px;
+    height: 4px;
+    background-color: gray;
+    transition: background-color 0.3s;
+}
+
+.custom-dots li.slick-active .custom-dot {
+    background-color: #ddd;
+}
