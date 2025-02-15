@@ -1,28 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {useMediaQuery, useTheme, IconButton} from '@mui/material';
-import {Button, styled, Toolbar, AppBar, Typography, Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import{lightBlue} from '@mui/material/colors';
+import {Button, styled, Toolbar, AppBar, Box, Drawer, List, ListItem, ListItemText} from '@mui/material';
 import { FaIndent } from "react-icons/fa";
 
 function Navbar(){
-  const navbarItems = ["Home", "About", "Service", "Contact"];
+  const navbarItems = ["Games", "News", "About", "Contact"];
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // 螢幕寬度 <= 600px 視為手機
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // 螢幕寬度 <= 600px 視為手機
   const [open , setOpen] = useState(false)
-  const NavButton = styled(Button)({
+  const NavButton = styled(Button)(({ theme }) => ({
     backgroundColor: 'transparent',
-    color: 'white',
-    margin: '0 10px',
+    fontSize: '1.05rem',
+    fontWeight: 800,
+    color: theme.palette.secondary.main,
+    margin: '24px',
     border: 'none',
-  })
+  }));
+
+  useEffect(() => {
+    if(!isMobile){
+      setOpen(false)
+    }
+  }, [isMobile])
 
   return(
   <>
   <AppBar>
-    <Toolbar>
-      <Typography variant="h6" sx={{flexGrow: '1'}}>Navbar</Typography>
+    <Toolbar sx={{backgroundColor: 'primary.main'}}>
+      <Box       
+      component="a"
+      href="#"
+      sx={{height: '100%', margin: '10px auto 10px 16px'}}
+      >
+          <Box         
+          component="img"
+          src="src/assets/MonsterKey_Logo.png"
+          alt="Logo"
+          sx={{height: '100%', width: {xs: '48px', md: '56px'}}}
+        />
+      </Box>
       {/* 電腦版選單 */}
-      <Box sx={{display:{xs: 'none', sm: 'flex'}}}>
+      <Box sx={{display: {xs: 'none', md: 'flex'}}}>
         {navbarItems.map((text, index) => (
           <NavButton key={index} variant="text">{text}</NavButton>
         ))}
@@ -30,24 +48,28 @@ function Navbar(){
 
       {/* 電腦版選單 */}
       {isMobile &&(
-        <IconButton onClick={() => setOpen(true)}> 
-          <FaIndent color ={lightBlue[100]}/>
+        <IconButton 
+        onClick={() => setOpen(true)}
+        sx={{color: 'secondary.main'}} > 
+          <FaIndent/>
         </IconButton>
         )
       }
 
       {/* 側邊欄選單 */}
-      <Drawer anchor='right' open = {open} onClose={() => setOpen(false)} sx={{ width: "400px", "& .MuiDrawer-paper": { width: "400px" } }}>
+      <Drawer 
+      anchor='right' 
+      open = {open} 
+      onClose={() => setOpen(false)} 
+      sx={{ width: "400px", "& .MuiDrawer-paper": { width: "50%", backgroundColor: '#212121' } }}>
         <List>
           {navbarItems.map((text, index) => (
-            <ListItem key={index} onClick={() => setOpen(false)}>
-              <ListItemText sx={{cursor: 'pointer'}}>{text}</ListItemText>
+            <ListItem sx={{fontWeight: 800, color: 'secondary.main', cursor: 'pointer'}} key={index} onClick={() => setOpen(false)}>
+              <ListItemText>{text}</ListItemText>
             </ListItem>
           ))}
         </List>
       </Drawer>
-
-
     </Toolbar>
   </AppBar>
   
