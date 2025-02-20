@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
 import {useMediaQuery, useTheme, IconButton} from '@mui/material';
 import {Button, styled, Toolbar, AppBar, Box, Drawer, List, ListItem, ListItemText} from '@mui/material';
 import { FaIndent} from "react-icons/fa";
@@ -11,10 +12,19 @@ function Navbar(){
     { id: "news", content: "News", link: "/news" },
     { id: "about", content: "About", link: "/about" },
     { id: "contact", content: "Contact", link: "/contact" },
-    { id: "person", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, scale: 1.5 }}><MdPerson /></Box>), link: "/login"}
+    { id: "person", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, fontSize: '1.5rem' }}><MdPerson /></Box>), link: "/login"}
   ];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); // 螢幕寬度 <= 600px 視為手機
+
+  const [buttonHover, setButtonHover] = useState({});
+  const handleMouseEnter = (id) => {
+    setButtonHover((prev) => ({ ...prev, [id]: true }));
+  };
+  const handleMouseLeave = (id) => {
+    setButtonHover((prev) => ({ ...prev, [id]: false }));
+  };
+
   const [open , setOpen] = useState(false)
   const NavButton = styled(Button)(({ theme }) => ({
     width: '20%',
@@ -35,7 +45,7 @@ function Navbar(){
   return(
   <>
   <AppBar>
-    <Toolbar sx={{backgroundColor: 'primary.main'}}>
+    <Toolbar>
         <Box       
         component="a"
         href="#"
@@ -46,16 +56,38 @@ function Navbar(){
             component="img"
             src="src/assets/MonsterKey_Logo.png"
             alt="Logo"
-            sx={{height: '100%', width: {xs: '48px', md: '56px'}}}
+            sx={{height: '100%', width: '56px'}}
           />
           </Link>
         </Box>
-      {/* 電腦版選單 */}
-      <Box sx={{display: {xs: 'none', md: 'flex'}}} >
-        {navbarItems.map((item) => (
-          <Link to={item.link} key={item.id}><NavButton>{item.content}</NavButton></Link>
-        ))}
-      </Box>
+          {/* 電腦版選單 */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: 'center'}}>
+            {navbarItems.map((item) => (
+              <Link
+                to={item.link}
+                key={item.id}
+                onMouseEnter={() => handleMouseEnter(item.id)}
+                onMouseLeave={() => handleMouseLeave(item.id)}
+                style={{ textDecoration: "none" }}
+              >
+                <NavButton>
+                  {item.content}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: buttonHover[item.id] ? "100%" : 0 }}
+                    transition={{ duration: 0.25 }}
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      height: "2px",
+                      backgroundImage: "linear-gradient(90deg, #ff7043, #333333)", // 漸層
+                    }}
+                  />
+                </NavButton>
+              </Link>
+            ))}
+          </Box>
 
       {/* 電腦版選單 */}
       {isMobile &&(

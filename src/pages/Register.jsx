@@ -1,45 +1,38 @@
 import { useState } from "react";
 import { auth } from "../api/firebase";
-import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { TextField, Button, Box, Typography, Container, Paper } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let newErrors = {};
 
-    if (!email) newErrors.email = "請輸入 Email"
-    if (!password) newErrors.password = "請輸入密碼"
+    if (!email) newErrors.email = "請輸入 Email";
+    if (!password) newErrors.password = "請輸入密碼";
+    if (!confirmPassword) newErrors.confirmPassword = "請確認密碼";
+    if (password !== confirmPassword) newErrors.confirmPassword = "密碼不一致";
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length > 0
-  ) {
-      setErrors(newErrors);
-      return; // 如果有錯誤，直接停止執行，返回
-    }
+    // 如果有錯誤，不繼續執行 Firebase 註冊
+    if (Object.keys(newErrors).length > 0) return;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/Home"); // 註冊成功後跳轉
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/login"); // 註冊成功後跳轉
     } catch (error) {
-      if (error.code === "auth/user-not-found" || error.code === "auth/invalid-email") {
-        setErrors({ email: "帳號不存在" });
-      } else if (error.code === "auth/wrong-password") {
-        setErrors({ password: "密碼錯誤" });
-      } else {
-        setErrors({ email: "登入失敗，請稍後再試" });
-      }
+      setErrors({ email: error.message }); // 顯示 Firebase 返回的錯誤訊息
     }
-  };
-
+    };
 
   return (
     <Box sx={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 80%)'}}>
@@ -50,7 +43,7 @@ function Login() {
         elevation={2} 
         sx={{ backgroundColor: 'primary.light', padding: 4, textAlign: "center", borderRadius: 2}}>
           <Typography variant="h5" gutterBottom>
-            登入
+            註冊
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <TextField
@@ -72,16 +65,19 @@ function Login() {
               error={!!errors.password}
               helperText={errors.password}
             />
+            <TextField
+              label="確認密碼"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword}
+            />
             <Button type="submit" variant="contained" sx={{backgroundColor: 'secondary.dark'}} fullWidth>
-              登入
+              註冊帳號
             </Button>
-            <Link 
-              to={'/register'}
-              style={{color: '#fff', textDecoration: "none" }}>
-            <Button type="file" variant="contained" sx={{backgroundColor: 'secondary.main'}} fullWidth>
-              註冊
-            </Button>
-            </Link>
           </Box>
         </Paper>
       </Container>
@@ -89,4 +85,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
