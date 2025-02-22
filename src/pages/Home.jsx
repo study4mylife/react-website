@@ -1,10 +1,10 @@
-import Carousel from '../components/Carousel'
+import Banner from '../components/Banner'
 import Introduce from '../components/Introduce'
 
 function Home() {
   return (
     <>
-        <Carousel />
+        <Banner />
         <Introduce />
     </>
   )

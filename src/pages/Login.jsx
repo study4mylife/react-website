@@ -1,8 +1,29 @@
 import { useState } from "react";
 import { auth } from "../api/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField, Button, Box, Typography, Container, Paper } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { Typewriter } from 'react-simple-typewriter'
+
+function TypeWriterTitle() {
+  return(
+    <Container 
+    maxWidth="sm" 
+    sx={{fontSize: '2rem', color: 'primary.text'}}>
+      <h2>
+      <Typewriter
+        words={['New Experience']}
+        loop={true} // 是否循環播放
+        cursor
+        cursorStyle="_"
+        typeSpeed={70} // 打字速度 (ms)
+        deleteSpeed={50} // 刪除速度 (ms)
+        delaySpeed={1000} // 文字顯示後停頓時間
+      />
+      </h2>
+    </Container>
+  )
+}
 
 function Login() {
   const navigate = useNavigate();
@@ -42,17 +63,20 @@ function Login() {
 
 
   return (
-    <Box sx={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 80%)'}}>
+    <Box sx={{background: 'linear-gradient(45deg, #278e8f 25%, #fa8e53 75%)'}}>
       <Container 
-      maxWidth="md" 
-      sx={{position: 'relative', zIndex: 0, display: "flex", justifyContent: "center", alignItems: "center", height: {xs: 'calc(100vh - 56px)',   sm: 'calc(100vh - 64px)'}}}>
+      maxWidth="lg" 
+      sx={{ display: "flex", justifyContent: {xs: 'center', md: "flex-start"}, alignItems: "center", height: {xs: 'calc(100vh - 56px)',   sm: 'calc(100vh - 64px)'}}}>
+        <Box sx={{ display: {xs: 'none', md: 'flex'}, flex: '0.8'}}>
+          <TypeWriterTitle />
+        </Box>
         <Paper 
-        elevation={2} 
-        sx={{ backgroundColor: 'primary.light', padding: 4, textAlign: "center", borderRadius: 2}}>
+        elevation={8}
+        sx={{ backgroundColor: 'primary.light', padding: 8, textAlign: "center", borderRadius: 4}}>
           <Typography variant="h5" gutterBottom>
             登入
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <TextField
               label="Email"
               variant='outlined'

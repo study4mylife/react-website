@@ -38,14 +38,14 @@ function Register() {
     <Box sx={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 80%)'}}>
       <Container 
       maxWidth="md" 
-      sx={{position: 'relative', zIndex: 0, display: "flex", justifyContent: "center", alignItems: "center", height: {xs: 'calc(100vh - 56px)',   sm: 'calc(100vh - 64px)'}}}>
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: {xs: 'calc(100vh - 56px)',   sm: 'calc(100vh - 64px)'}}}>
         <Paper 
         elevation={2} 
-        sx={{ backgroundColor: 'primary.light', padding: 4, textAlign: "center", borderRadius: 2}}>
+        sx={{ backgroundColor: 'primary.light', padding: 8, textAlign: "center", borderRadius: 4}}>
           <Typography variant="h5" gutterBottom>
             註冊
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <TextField
               label="Email"
               variant='outlined'

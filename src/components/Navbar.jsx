@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import {useMediaQuery, useTheme, IconButton} from '@mui/material';
 import {Button, styled, Toolbar, AppBar, Box, Drawer, List, ListItem, ListItemText} from '@mui/material';
-import { FaIndent} from "react-icons/fa";
+import { FaIndent, FaHome, FaGamepad, FaNewspaper, FaBookReader} from "react-icons/fa";
 import { MdPerson } from "react-icons/md";
 
 function Navbar(){
   const navbarItems = [
-    { id: "games", content: "Games", link: "/games" },
-    { id: "news", content: "News", link: "/news" },
-    { id: "about", content: "About", link: "/about" },
-    { id: "contact", content: "Contact", link: "/contact" },
-    { id: "person", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, fontSize: '1.5rem' }}><MdPerson /></Box>), link: "/login"}
+    { id: "home", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, alignItems: 'center', gap: 1}}>Home<FaHome /></Box>), link: "/" },
+    { id: "games", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, alignItems: 'center', gap: 1}}>Games<FaGamepad /></Box>), link: "/games" },
+    { id: "news", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, alignItems: 'center', gap: 1}}>News<FaNewspaper /></Box>), link: "/news" },
+    { id: "about", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, alignItems: 'center', gap: 1}}>About<FaBookReader /></Box>), link: "/about" },
+    { id: "person", content: (<Box sx={{display: {xs: 'none', md: 'flex'}, fontSize: '1.5rem'}}><MdPerson /></Box>), link: "/login"}
   ];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); // 螢幕寬度 <= 600px 視為手機
@@ -32,8 +32,7 @@ function Navbar(){
     fontSize: '1.05rem',
     fontWeight: 800,
     color: theme.palette.secondary.main,
-    margin: '24px',
-    border: 'none',
+    margin: '0 24px',
   }));
 
   useEffect(() => {
@@ -49,14 +48,14 @@ function Navbar(){
         <Box       
         component="a"
         href="#"
-        sx={{height: '100%', margin: '10px auto 10px 16px'}}
+        sx={{height: {xs: '48px', md:'100%'}, margin: '10px auto 10px 16px'}}
         >
           <Link to={"/"}>
             <Box         
             component="img"
             src="src/assets/MonsterKey_Logo.png"
             alt="Logo"
-            sx={{height: '100%', width: '56px'}}
+            sx={{height: {xs: '48px', md:'56px'}, width: 'auto'}}
           />
           </Link>
         </Box>
@@ -75,12 +74,12 @@ function Navbar(){
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: buttonHover[item.id] ? "100%" : 0 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.22 }}
                     style={{
                       position: "absolute",
                       bottom: 0,
                       left: 0,
-                      height: "2px",
+                      height: "1.8px",
                       backgroundImage: "linear-gradient(90deg, #ff7043, #333333)", // 漸層
                     }}
                   />
@@ -107,8 +106,20 @@ function Navbar(){
       sx={{ width: "400px", "& .MuiDrawer-paper": { width: "50%", backgroundColor: '#212121' } }}>
         <List>
           {navbarItems.map((item) => (
-            <ListItem sx={{fontWeight: 800, color: 'secondary.main', cursor: 'pointer'}} key={item.id} onClick={() => setOpen(false)}>
-              <ListItemText>{item.content}</ListItemText>
+            <ListItem 
+            key={item.id} 
+            onClick={() => setOpen(false)}>
+              <Link
+                to={item.link}
+                key={item.id}
+                onMouseEnter={() => handleMouseEnter(item.id)}
+                onMouseLeave={() => handleMouseLeave(item.id)}
+                style={{ textDecoration: "none"}}
+              >
+                <ListItemText 
+                primary= {item.content} 
+                slotProps={{ primary: {sx: { color: "secondary.main", fontWeight: "800" }}}}/>
+              </Link>
             </ListItem>
           ))}
         </List>
