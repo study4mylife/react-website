@@ -9,10 +9,10 @@ function TypeWriterTitle() {
   return(
     <Container 
     maxWidth="sm" 
-    sx={{fontSize: '2rem', color: 'primary.text'}}>
+    sx={{fontFamily: 'Kanit, san-serif', fontSize: '2rem', color: 'primary.text'}}>
       <h2>
       <Typewriter
-        words={['New Experience']}
+        words={['New Experience', 'Join Us']}
         loop={true} // 是否循環播放
         cursor
         cursorStyle="_"
@@ -63,7 +63,7 @@ function Login() {
 
 
   return (
-    <Box sx={{background: 'linear-gradient(45deg, #278e8f 25%, #fa8e53 75%)'}}>
+    <Box sx={{background: 'linear-gradient(45deg, #0097a7 5%, #fa8e53 70%)'}}>
       <Container 
       maxWidth="lg" 
       sx={{ display: "flex", justifyContent: {xs: 'center', md: "flex-start"}, alignItems: "center", height: {xs: 'calc(100vh - 56px)',   sm: 'calc(100vh - 64px)'}}}>

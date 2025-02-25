@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { deepOrange } from "@mui/material/colors";
+import { deepOrange, cyan } from "@mui/material/colors";
 
 const theme = createTheme({
   typography: {
@@ -20,7 +20,11 @@ const theme = createTheme({
       darker: deepOrange[800],
     },
     tertiary: {
-      main: "#278e8f",
+      main: cyan[700],
+      light: cyan[500],
+      lighter: cyan[300],
+      dark: cyan[800],
+      darker: cyan[900],
     },
   },
   components: {
