@@ -1,12 +1,13 @@
 import {Box, Container, Typography, Button} from '@mui/material';
+import banner from '../assets/homeBanner.jpg'
 
 function Banner(){
   return(
   <>
     <Box sx={{ position: 'relative', maxWidth: '100%', maxHeight: 'calc(100vh - 64px)', overflow: 'hidden' }}>
         <Box 
-          component="img" 
-          src="../src/assets/homeBanner.jpg" 
+          component="img"
+          src={banner}
           alt="2" 
           sx={{width: "100%", height: "auto", objectFit: "cover", filter: "brightness(0.2);" }} 
         />
